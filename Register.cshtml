@@ -1,0 +1,110 @@
+﻿@using Kendo.Mvc.UI
+@addTagHelper *, Kendo.Mvc
+@model KendoPractice2.Models.PersonModel
+
+
+@{
+    ViewData["Title"] = "RegisterUser";
+}
+
+@{
+    var messages = new Dictionary<string, string>() { { "custom", "Please set at least 18 years old." } };
+    var rules = new Dictionary<string, string>() { { "custom", "customFunction" } };
+}
+
+<h2>Account Setup</h2>
+
+@*@using (Html.BeginForm("ActionName", "ControllerName", FormMethod.Post, new { id = "registerForm", kendo_validator = "true", kendo_messages = "messages", kendo_rules = "rules" }))
+    {*@
+<form id="registerForm" method="post" kendo-validator="true" kendo-messages="messages" kendo-rules="rules">
+    <div class="registerCard">
+
+        <div class="form-group">
+
+            @Html.LabelFor(m => m.Name, new { @class = "required" })
+            @(Html.Kendo().TextBoxFor(m => m.Name)
+                .HtmlAttributes(new { placeholder = "John", required = "required", validationmessage = "Name is required", type = "textbox", @class = "form-control" })
+            )
+
+
+        </div>
+        <div class="form-group">
+
+            @Html.LabelFor(m => m.LastName, new { @class = "required" })
+            @(Html.Kendo().TextBoxFor(m => m.LastName)
+                .HtmlAttributes(new { placeholder = "Doe", type = "textbox", required = "required", @class = "form-control", validationmessage = "Last Name is required" })
+            )
+            @*@Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" , validationmessage = "Last Name is required"})*@
+
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Age)
+            @(Html.Kendo().NumericTextBoxFor(m => m.Age)
+         .Value(17)
+         .Format("# years")
+         .Min(17)
+         .Enable(true)
+         .Max(100)
+            )
+            <span class="k-invalid-msg" data-for="Age"></span>
+        </div>
+        <div class="form-group">
+
+            @Html.LabelFor(m => m.Role)
+            @(Html.Kendo().DropDownListFor(m => m.Role)
+         .OptionLabel("Select a role...")
+         .BindTo(new SelectList(new string[] { "Student", "Teacher", "Admin" })
+        )
+            )
+
+        </div>
+
+        <div class="form-group">
+
+            @Html.LabelFor(m => m.Email)
+            @(Html.Kendo().TextBoxFor(m => m.Email)
+                .HtmlAttributes(new { placeholder = "you@domain.com", type = "email", @class = "form-control" })
+            )
+        </div>
+        <div>
+            <label class="status"></label>
+        </div>
+
+
+        <input type="submit" value="Save" class="k-primary k-button" />
+
+    </div>
+
+</form>
+
+<script>
+    function customFunction(input) {
+
+        if (input.attr('name') === "Age" && input.val() == "17") {
+            return false;
+        }
+
+        return true;
+    }
+
+    $(function () {
+        var validator = $("#registerForm").data("kendoValidator");
+        var status = $(".status");
+
+        $('form').submit(function (event) {
+            console.log('submit');
+           // event.preventDefault();
+            if (validator.validate()) {
+                status.text("Sent register user")
+                    .removeClass("invalid")
+                    .addClass("valid");
+            } else {
+                status.text("Oops! There is invalid data in the register form.")
+                    .removeClass("valid")
+                    .addClass("invalid");
+            }
+        });
+    });
+</script>
+
+

@@ -1,0 +1,47 @@
+﻿
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://kendo.cdn.telerik.com/2020.1.219/styles/kendo.bootstrap-v4.min.css" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/css/site.css")" rel="stylesheet" type="text/css" />
+
+    <script src="https://kendo.cdn.telerik.com/2020.1.219/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.219/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2020.1.219/js/kendo.aspnetmvc.min.js">
+
+
+    </script>
+    <script src="https://demos.telerik.com/kendo-ui/content/shared/js/console.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TestKendo</title>
+
+
+</head>
+<body>
+    @(Html.Kendo().Menu()
+      .Name("menu")
+      .Items(items =>
+            {
+          items.Add().Text("Home").Action("Index", "Home");
+          items.Add().Text("Register").Action("Register", "Home");
+          items.Add().Text("People report").Action("Report", "Home");
+          items.Add().Text("About").Action("About", "Home");
+      })
+    )
+    <div>
+        @RenderBody()
+
+        <footer>
+            <p>&copy; 2020 - Agile Thought</p>
+        </footer>
+    </div>
+
+
+</body>
+</html>

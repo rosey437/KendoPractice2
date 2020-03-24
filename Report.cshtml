@@ -1,0 +1,48 @@
+﻿
+@using KendoPractice2.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container">
+    <div class="row">
+        @(Html.Kendo().Grid<PersonModel>()
+        .Name("grid")
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Events(err => err.Error("error_handler"))
+        .Read(read => read.Action("PersonList", "Home")                    )
+        .Model(model => model.Id(p => p.Id)))
+         .Events(events => events
+            .Change("onChange")
+ 
+             )
+        )
+
+        <script type="text/javascript">
+                 function onChange(arg) {
+        var selected = $.map(this.select(), function (item) {
+            return $(item).text();
+        });
+        kendoConsole.log("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+    }
+
+    function error_handler(e) {
+                    if (e.errors) {
+                        var message = "Errors:\n";
+                        $.each(e.errors, function (key, value) {
+                            if ('errors' in value) {
+                                $.each(value.errors, function () {
+                                    message += this + "\n";
+                                });
+                            }
+                        });
+                        alert(message);
+                    }
+                }
+        </script>
+    </div>
+</div>
